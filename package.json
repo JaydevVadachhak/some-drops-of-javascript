@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "format-examples": "npx prettier ./examples/ --write",
-    "format-examples-bun": "bunx prettier ./examples/ --write"
+    "format-examples-bun": "bunx prettier ./examples/ --write",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal public/favicon.svg"
   },
   "dependencies": {
     "@astrojs/starlight": "0.31.0",
@@ -19,8 +20,12 @@
     "sharp": "^0.33.5"
   },
   "devDependencies": {
+    "@vite-pwa/assets-generator": "^1.0.0",
+    "@vite-pwa/astro": "^1.1.0",
     "bun-types": "^1.1.43",
-    "daisyui": "^4.12.23"
+    "daisyui": "^4.12.23",
+    "vite-plugin-pwa": "^1.0.0",
+    "workbox-window": "^7.3.0"
   },
   "trustedDependencies": [
     "esbuild",
