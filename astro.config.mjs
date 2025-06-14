@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import tailwind from '@astrojs/tailwind'
+import tailwind from '@astrojs/tailwind';
+import AstroPWA from '@vite-pwa/astro';
+import manifest from './webmanifest.json' assert { type: 'json' };
 
 
 // https://astro.build/config
@@ -10,6 +12,9 @@ export default defineConfig({
     starlight({
       title: 'Some drops of JavaScript',
       customCss: ['./src/styles/tailwind.css', './src/styles/custom.css'],
+      components: {
+        Head: './src/components/Head.astro',
+      },
       head: [
         {
           tag: 'meta',
@@ -25,6 +30,13 @@ export default defineConfig({
             property: 'twitter:image',
             content:
               'https://raw.githubusercontent.com/roberto-butti/some-drops-of-javascript/main/public/header.png',
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'theme-color',
+            content: '#ff5d01',
           },
         },
       ],
@@ -91,6 +103,24 @@ export default defineConfig({
     tailwind({
       // Disable the default base styles:
       applyBaseStyles: false,
+    }),
+    AstroPWA({
+      mode: 'production',
+      base: '/',
+      scope: '/',
+      includeAssets: ['favicon.svg', 'header.png'],
+      manifest,
+      workbox: {
+        navigateFallback: '/',
+        globPatterns: ['**/*.{css,js,html,svg,png,ico,webp}'],
+      },
+      devOptions: {
+        enabled: true,
+        navigateFallbackAllowlist: [/^\/$/],
+      },
+      experimental: {
+        directoryAndTrailingSlashHandler: true,
+      },
     }),
   ],
 })
