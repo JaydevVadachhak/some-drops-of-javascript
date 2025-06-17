@@ -1,0 +1,20 @@
+---
+import { pwaInfo } from 'virtual:pwa-info';
+import ReloadPrompt from './ReloadPrompt.astro';
+---
+
+{pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
+<ReloadPrompt />
+<script>
+  import { registerSW } from 'virtual:pwa-register';
+  
+  registerSW({
+    immediate: true,
+    onRegisteredSW(swScriptUrl) {
+      console.log('SW registered: ', swScriptUrl);
+    },
+    onOfflineReady() {
+      console.log('PWA application ready to work offline');
+    },
+  });
+</script> 
